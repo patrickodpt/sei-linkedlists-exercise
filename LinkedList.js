@@ -31,6 +31,7 @@ class LinkedList{
         let prependableNode = new Node(data)
         prependableNode.next = this.head
         this.head = prependableNode
+        // console.log(`node was prepended. value was: ${prependableNode.data}`)
         return
     }
     pop(){
@@ -118,10 +119,12 @@ class LinkedList{
           let removedNode = this.head
           this.head = removedNode.next
           removedNode.next = null
+          // console.log(`removedNode (1node) is: ${removedNode} and removedNode contains: ${removedNode.data}`)
           return removedNode
         } else if (X == 1) {
           let removedNode = this.head.next
           this.head.next = this.head.next.next
+          // console.log(`removedNode (2 nodes) is: ${removedNode} and removedNode contains: ${removedNode.data}`)
           return removedNode
         } else if (X > 1) {
           let walker = this.head
@@ -133,6 +136,7 @@ class LinkedList{
           }
           follower.next = walker.next
           walker.next = null
+          // console.log(`walker is: ${walker} and walker contains: ${walker.data}`)
           return walker
         }
     }
@@ -156,48 +160,103 @@ class LinkedList{
     }
     sort(){
         // sort the Linked List in ascending order of data values
+        // will try to delete max from og linked list then prepend max to
+          // sortingList. Once og list is empty, point this.head to sortinglist.head
 
-        //0 nodes
-        if (this.head == null) { return null }
+        //0 nodes :: SORTED!
+        if (!this.head) {return null}
 
-        //1 node
-        if (this.head.next == null) { return this.head }
+        //1 node :: SORTED!
+        if (!this.head.next) {return this.head}
 
-        //2+ node -- need walker and follower to switch pointers as appropriate
-        let walker = this.head.next
-        let follower = this.head;
-        let creeper; //third follower (need this to point to smaller data value) // may not need this
-        let changed;
+        //2+ nodes :: using this.methods()
+        function bubbleSortDataSwap(){
+          console.log(`ran ran ran`);
+          let walker = this.head.next
+          let follower = this.head
+          let somethingSwapped = false;
 
-        function sortCycle() {
-          changed = false
           while (walker) {
-            let nodeA = follower;
-            let nodeB = walker;
-            // creeper = follower
+            if (walker.data < follower.data) {
+              let temp = walker.data
+              walker.data = follower.data
+              follower.data = temp
+              somethingSwapped = true;
+            }
             follower = walker
             walker = walker.next
-            if (nodeA == this.head && nodeA.data > nodeB.data) {
-              changed = true
-              let temp = this.head
-              this.head = temp.next
-              temp.next = nodeB.next
-              nodeB.next = nodeA
-            } else if (nodeA.data > nodeB.data) {
-              //:::::::::TODO:::::::::
-              changed = true
-              let temp = nodeA
-              nodeA = temp.next
-              temp.next = nodeB.next
-              nodeB.next = nodeA
-            }
+            somethingSwapped ? this.bubbleSortDataSwap() : this.head
           }
-          return changed
         }
-        while(changed) {
-          sortCycle()
-        }
-    }
+
+        bubbleSortDataSwap()
+
+        // :::::::::ATTEMPT TO USE A SEPERATE LINKED LIST::::::::
+        // let maxIndex;
+        // let sortingList = new LinkedList()
+        //
+        // function sortingHelper() {
+        //   let walker = this.head;
+        //   let psuedoIndex = 0;
+        //
+        //   while (walker) {
+        //     if (walker.data > currentMax) {
+        //       currentMax = walker.data;
+        //       return maxIndex = psuedoIndex
+        //     }
+        //     walker = walker.next //move to next node
+        //     psuedoIndex++;
+        //     console.log(`within sortingHelper == maxIndex:: ${maxIndex} and psuedoIndex:: ${psuedoIndex}`);
+        //   }
+        // }
+        //
+        // while(this.head) {
+        //   sortingHelper()
+        //   // prepends node.data returned by .removeAt()
+        //   sortingList.prependNode(this.removeAt(maxIndex).data)
+        // }
+        //
+        //
+        // return this.head = sortingList.head
+
+
+        //            ::::::::BELOW IS ATTEMPT AT BUBBLE SORT LINKED LIST :::::::
+        //2+ node -- need walker and follower to switch pointers as appropriate
+        // let walker = this.head.next //start walker at second node
+        // let follower = this.head; //start follower at first node/
+        // let creeper; //third follower (need this to point to smaller data value) // may not need this
+        // let changed;
+        //
+        // function bubbleSortCycle() {
+        //   changed = false
+        //   while (walker) {
+        //     let nodeA = follower;
+        //     let nodeB = walker;
+        //     // creeper = follower
+        //     follower = walker
+        //     walker = walker.next
+        //     if (nodeA == this.head && nodeA.data > nodeB.data) {
+        //       changed = true
+        //       let temp = this.head
+        //       this.head = temp.next
+        //       temp.next = nodeB.next
+        //       nodeB.next = nodeA
+        //     } else if (nodeA.data > nodeB.data) {
+        //       //:::::::::TODO:::::::::
+        //       changed = true
+        //       let temp = nodeA
+        //       nodeA = temp.next
+        //       temp.next = nodeB.next
+        //       nodeB.next = nodeA
+        //     }
+        //   }
+        //   return changed
+        // }
+        // while(changed) {
+        //   bubbleSortCycle()
+        // }
+    // }
+  }
 }
 
 module.exports = {
