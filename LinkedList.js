@@ -160,36 +160,44 @@ class LinkedList{
     }
     sort(){
         // sort the Linked List in ascending order of data values
-        // will try to delete max from og linked list then prepend max to
-          // sortingList. Once og list is empty, point this.head to sortinglist.head
-
         //0 nodes :: SORTED!
         if (!this.head) {return null}
-
         //1 node :: SORTED!
         if (!this.head.next) {return this.head}
 
-        //2+ nodes :: using this.methods()
-        function bubbleSortDataSwap(){
-          console.log(`ran ran ran`);
-          let walker = this.head.next
-          let follower = this.head
-          let somethingSwapped = false;
 
-          while (walker) {
-            if (walker.data < follower.data) {
-              let temp = walker.data
-              walker.data = follower.data
-              follower.data = temp
-              somethingSwapped = true;
+
+        //2+ nodes :: using bubbleSort again.
+        if (this.head.next) {
+          function bubbleSortDataSwap(){
+            console.log(`ran ran ran`);
+            let walker = this.head.next
+            let follower = this.head
+            let somethingSwapped = true;
+
+            while (walker) {
+              somethingSwapped = false
+              if (walker.data < follower.data) {
+                let temp = walker.data
+                walker.data = follower.data
+                follower.data = temp
+                somethingSwapped = true;
+              }
+              follower = walker
+              walker = walker.next
             }
-            follower = walker
-            walker = walker.next
-            somethingSwapped ? this.bubbleSortDataSwap() : this.head
+
+            if (somethingSwapped) {
+              somethingSwapped = false
+              bubbleSortDataSwap()
+            } else {
+              return this.head
+            }
           }
+
+          bubbleSortDataSwap()
         }
 
-        bubbleSortDataSwap()
 
         // :::::::::ATTEMPT TO USE A SEPERATE LINKED LIST::::::::
         // let maxIndex;
